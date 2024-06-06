@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Tree Map</title>
+    <style>
+        #map {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            background: url('your-image.png') no-repeat;
+            background-size: cover;
+        }
+        .tree {
+            position: absolute;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .tree-info {
+            display: none;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map">
+        <div class="tree" data-species="Abies cephalonica" data-info="A species of fir native to Greece." style="top: 150px; left: 200px; width: 30px; height: 30px;"></div>
+        <div class="tree" data-species="Cedrus atlantica" data-info="Also known as the Atlas cedar, native to the Atlas Mountains of Morocco." style="top: 300px; left: 350px; width: 40px; height: 40px;"></div>
+        <div class="tree" data-species="Picea abies" data-info="Commonly known as the Norway spruce, native to Northern, Central, and Eastern Europe." style="top: 100px; left: 400px; width: 35px; height: 35px;"></div>
+        <div class="tree" data-species="Pinus nigra" data-info="Known as the Austrian pine or black pine, native to Southern Europe." style="top: 250px; left: 150px; width: 45px; height: 45px;"></div>
+        <div class="tree" data-species="Quercus robur" data-info="Commonly known as the pedunculate oak or English oak, native to most of Europe." style="top: 200px; left: 500px; width: 50px; height: 50px;"></div>
+        <div class="tree" data-species="Acer platanoides" data-info="Also known as the Norway maple, native to Eastern and Central Europe and Western Asia." style="top: 350px; left: 250px; width: 30px; height: 30px;"></div>
+        <div class="tree" data-species="Fagus sylvatica" data-info="Commonly known as the European beech, native to Europe." style="top: 50px; left: 550px; width: 40px; height: 40px;"></div>
+    </div>
+    <div id="tree-info" class="tree-info"></div>
+
+    <script>
+        document.querySelectorAll('.tree').forEach(tree => {
+            tree.addEventListener('click', function() {
+                const infoBox = document.getElementById('tree-info');
+                const species = this.getAttribute('data-species');
+                const info = this.getAttribute('data-info');
+                infoBox.innerHTML = `<strong>${species}</strong><br>${info}`;
+                infoBox.style.display = 'block';
+                infoBox.style.top = (this.offsetTop + 40) + 'px';
+                infoBox.style.left = this.offsetLeft + 'px';
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('tree')) {
+                document.getElementById('tree-info').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
