@@ -11,6 +11,7 @@
             width: 100%;
             height: 100%;
             font-family: Arial, sans-serif;
+            overflow: hidden; /* За да няма скролване */
         }
         #map {
             position: relative;
@@ -21,7 +22,7 @@
         }
         .tree {
             position: absolute;
-            border: 2px solid #fff;
+            border: 3px solid #fff;
             border-radius: 50%;
             cursor: pointer;
         }
@@ -42,22 +43,32 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         @media (max-width: 600px) {
+            .tree {
+                width: 40px;
+                height: 40px;
+            }
             .tree-info {
                 max-width: 150px;
                 font-size: 0.9em;
+            }
+        }
+        @media (min-width: 601px) {
+            .tree {
+                width: 60px;
+                height: 60px;
             }
         }
     </style>
 </head>
 <body>
     <div id="map">
-        <div class="tree broadleaf" data-species="Quercus robur" data-info="Известен като Дъб, роден в повечето части на Европа." style="top: 200px; left: 500px; width: 50px; height: 50px;"></div>
-        <div class="tree conifer" data-species="Abies cephalonica" data-info="Вид ела, роден в Гърция." style="top: 150px; left: 200px; width: 30px; height: 30px;"></div>
-        <div class="tree conifer" data-species="Cedrus atlantica" data-info="Известен още като Атласки кедър, роден в планините Атлас на Мароко." style="top: 300px; left: 350px; width: 40px; height: 40px;"></div>
-        <div class="tree conifer" data-species="Picea abies" data-info="Известен като Норвежка смърч, роден в Северна, Централна и Източна Европа." style="top: 100px; left: 400px; width: 35px; height: 35px;"></div>
-        <div class="tree conifer" data-species="Pinus nigra" data-info="Известен като Австрийски бор или черен бор, роден в Южна Европа." style="top: 250px; left: 150px; width: 45px; height: 45px;"></div>
-        <div class="tree broadleaf" data-species="Acer platanoides" data-info="Известен като Норвежки явор, роден в Източна и Централна Европа и Западна Азия." style="top: 350px; left: 250px; width: 30px; height: 30px;"></div>
-        <div class="tree broadleaf" data-species="Fagus sylvatica" data-info="Известен като Европейски бук, роден в Европа." style="top: 50px; left: 550px; width: 40px; height: 40px;"></div>
+        <div class="tree broadleaf" data-species="Quercus robur" data-info="Известен като Дъб, роден в повечето части на Европа." style="top: 1200px; left: 800px;"></div>
+        <div class="tree conifer" data-species="Abies cephalonica" data-info="Вид ела, роден в Гърция." style="top: 600px; left: 400px;"></div>
+        <div class="tree conifer" data-species="Cedrus atlantica" data-info="Известен още като Атласки кедър, роден в планините Атлас на Мароко." style="top: 1200px; left: 700px;"></div>
+        <div class="tree conifer" data-species="Picea abies" data-info="Известен като Норвежка смърч, роден в Северна, Централна и Източна Европа." style="top: 400px; left: 1200px;"></div>
+        <div class="tree conifer" data-species="Pinus nigra" data-info="Известен като Австрийски бор или черен бор, роден в Южна Европа." style="top: 1000px; left: 200px;"></div>
+        <div class="tree broadleaf" data-species="Acer platanoides" data-info="Известен като Норвежки явор, роден в Източна и Централна Европа и Западна Азия." style="top: 1500px; left: 1000px;"></div>
+        <div class="tree broadleaf" data-species="Fagus sylvatica" data-info="Известен като Европейски бук, роден в Европа." style="top: 200px; left: 1600px;"></div>
     </div>
     <div id="tree-info" class="tree-info"></div>
 
@@ -69,7 +80,7 @@
                 const info = this.getAttribute('data-info');
                 infoBox.innerHTML = `<strong>${species}</strong><br>${info}`;
                 infoBox.style.display = 'block';
-                infoBox.style.top = (this.offsetTop + 40) + 'px';
+                infoBox.style.top = (this.offsetTop + 50) + 'px';
                 infoBox.style.left = this.offsetLeft + 'px';
             });
         });
