@@ -40,8 +40,13 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            max-width: 200px;
+            max-width: 80%;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%); /* Центрира popup */
+            text-align: center;
+            z-index: 1000;
         }
         @media (max-width: 600px) {
             .tree {
@@ -49,8 +54,8 @@
                 height: 40px;
             }
             .tree-info {
-                max-width: 150px;
-                font-size: 0.9em;
+                max-width: 90%;
+                font-size: 1em;
             }
         }
         @media (min-width: 601px) {
@@ -81,8 +86,6 @@
                 const info = this.getAttribute('data-info');
                 infoBox.innerHTML = `<strong>${species}</strong><br>${info}`;
                 infoBox.style.display = 'block';
-                infoBox.style.top = (this.offsetTop + 60) + 'px';
-                infoBox.style.left = this.offsetLeft + 'px';
             });
         });
 
