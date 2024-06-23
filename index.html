@@ -1,90 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="bg">
 <head>
-    <title>Interactive Tree Map</title>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <title>Интерактивна Карта на Дърветата</title>
     <style>
-        #map { height: 600px; }
-        .leaflet-div-icon {
-            background: transparent;
-            border: none;
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: Arial, sans-serif;
         }
-        .broadleaf-icon {
+        #map {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: url('your-image.png') no-repeat center center;
+            background-size: cover;
+        }
+        .tree {
+            position: absolute;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .broadleaf {
             background-color: green;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 12px;
-            height: 12px;
         }
-        .conifer-icon {
+        .conifer {
             background-color: darkgreen;
-            border: 2px solid white;
-            border-radius: 50%;
-            width: 12px;
-            height: 12px;
+        }
+        .tree-info {
+            display: none;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-width: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        @media (max-width: 600px) {
+            .tree-info {
+                max-width: 150px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <div id="map">
+        <div class="tree broadleaf" data-species="Quercus robur" data-info="Известен като Дъб, роден в повечето части на Европа." style="top: 200px; left: 500px; width: 50px; height: 50px;"></div>
+        <div class="tree conifer" data-species="Abies cephalonica" data-info="Вид ела, роден в Гърция." style="top: 150px; left: 200px; width: 30px; height: 30px;"></div>
+        <div class="tree conifer" data-species="Cedrus atlantica" data-info="Известен още като Атласки кедър, роден в планините Атлас на Мароко." style="top: 300px; left: 350px; width: 40px; height: 40px;"></div>
+        <div class="tree conifer" data-species="Picea abies" data-info="Известен като Норвежка смърч, роден в Северна, Централна и Източна Европа." style="top: 100px; left: 400px; width: 35px; height: 35px;"></div>
+        <div class="tree conifer" data-species="Pinus nigra" data-info="Известен като Австрийски бор или черен бор, роден в Южна Европа." style="top: 250px; left: 150px; width: 45px; height: 45px;"></div>
+        <div class="tree broadleaf" data-species="Acer platanoides" data-info="Известен като Норвежки явор, роден в Източна и Централна Европа и Западна Азия." style="top: 350px; left: 250px; width: 30px; height: 30px;"></div>
+        <div class="tree broadleaf" data-species="Fagus sylvatica" data-info="Известен като Европейски бук, роден в Европа." style="top: 50px; left: 550px; width: 40px; height: 40px;"></div>
+    </div>
+    <div id="tree-info" class="tree-info"></div>
+
     <script>
-        var map = L.map('map').setView([your_latitude, your_longitude], zoom_level);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-        }).addTo(map);
-
-        // Функция за създаване на маркери с персонализирани икони
-        function createCustomIcon(className) {
-            return L.divIcon({
-                className: 'leaflet-div-icon',
-                html: `<div class="${className}"></div>`,
-                iconSize: [12, 12],
-                iconAnchor: [6, 6],
-                popupAnchor: [0, -6]
+        document.querySelectorAll('.tree').forEach(tree => {
+            tree.addEventListener('click', function() {
+                const infoBox = document.getElementById('tree-info');
+                const species = this.getAttribute('data-species');
+                const info = this.getAttribute('data-info');
+                infoBox.innerHTML = `<strong>${species}</strong><br>${info}`;
+                infoBox.style.display = 'block';
+                infoBox.style.top = (this.offsetTop + 40) + 'px';
+                infoBox.style.left = this.offsetLeft + 'px';
             });
-        }
+        });
 
-        // Примерни дървета с информация
-        var trees = [
-            {
-                type: 'broadleaf',
-                lat: 42.6977,
-                lon: 23.3219,
-                name: 'Дъб (Quercus)',
-                info: 'Дъбовете са широколистни дървета, разпространени в северното полукълбо. Те имат твърда дървесина и дълъг живот.'
-            },
-            {
-                type: 'conifer',
-                lat: 42.6985,
-                lon: 23.3223,
-                name: 'Бор (Pinus)',
-                info: 'Боровете са вечнозелени иглолистни дървета, които са широко разпространени в северното полукълбо. Те имат игловидни листа и се използват за дървообработка.'
-            },
-            {
-                type: 'broadleaf',
-                lat: 42.6990,
-                lon: 23.3230,
-                name: 'Кестен (Castanea)',
-                info: 'Кестените са широколистни дървета, разпространени в умерените региони на северното полукълбо. Те произвеждат ядливи плодове.'
-            },
-            {
-                type: 'conifer',
-                lat: 42.6995,
-                lon: 23.3240,
-                name: 'Ела (Abies)',
-                info: 'Елите са иглолистни дървета, разпространени в планинските райони на северното полукълбо. Те имат конусовидна форма и игловидни листа.'
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('tree')) {
+                document.getElementById('tree-info').style.display = 'none';
             }
-        ];
-
-        // Добавяне на маркерите на картата
-        trees.forEach(function(tree) {
-            var iconClass = tree.type === 'broadleaf' ? 'broadleaf-icon' : 'conifer-icon';
-            var marker = L.marker([tree.lat, tree.lon], { icon: createCustomIcon(iconClass) }).addTo(map);
-            marker.bindPopup(`<b>${tree.name}</b><br>${tree.info}`);
         });
     </script>
 </body>
